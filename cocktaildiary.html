@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cocktail Checklist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Unbounded:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/flatpickr.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827;
+            color: #F3F4F6;
+        }
+        .unbounded {
+            font-family: 'Unbounded', sans-serif;
+        }
+        .cocktail-item {
+            background-color: #1F2937;
+            border: 1px solid #374151;
+            transition: background-color 0.2s;
+        }
+        .cocktail-item:hover {
+            background-color: #374151;
+        }
+        .custom-checkbox:checked {
+            background-color: #3B82F6;
+            border-color: #3B82F6;
+        }
+        .custom-checkbox {
+            appearance: none;
+            background-color: #374151;
+            border: 1px solid #4B5563;
+            border-radius: 0.25rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            cursor: pointer;
+            position: relative;
+            transition: background-color 0.2s, border-color 0.2s;
+            flex-shrink: 0;
+        }
+        .custom-checkbox:checked::after {
+            content: '✔';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 1rem;
+        }
+        
+        /* Accessible Flatpickr Dark Theme */
+        .flatpickr-calendar {
+            background: #1F2937;
+            border-color: #374151;
+        }
+        .flatpickr-day {
+            color: #D1D5DB;
+        }
+        .flatpickr-day:hover {
+            background: #374151;
+        }
+        .flatpickr-day.selected, 
+        .flatpickr-day.startRange, 
+        .flatpickr-day.endRange {
+            background: #3B82F6;
+            border-color: #3B82F6;
+            color: #FFFFFF; /* AAA Check: Set text to white on selected date for better contrast */
+        }
+        .flatpickr-day.today {
+            border-color: #6B7280; /* Subtle border for today */
+        }
+        .flatpickr-day.disabled, 
+        .flatpickr-day.disabled:hover {
+            color: #4B5563; /* Darker gray for disabled dates */
+            cursor: not-allowed;
+            background: transparent;
+        }
+        .flatpickr-day.prevMonthDay, 
+        .flatpickr-day.nextMonthDay {
+            color: #6B7280; /* Dim dates from other months */
+        }
+        .flatpickr-weekday {
+            color: #9CA3AF;
+        }
+        .flatpickr-months .flatpickr-prev-month svg, 
+        .flatpickr-months .flatpickr-next-month svg {
+            fill: #D1D5DB; /* Ensure arrows are light */
+        }
+        .flatpickr-months .flatpickr-prev-month:hover svg, 
+        .flatpickr-months .flatpickr-next-month:hover svg {
+            fill: #3B82F6;
+        }
+        .flatpickr-month, .flatpickr-current-month .flatpickr-monthDropdown-months {
+             color: #F3F4F6;
+        }
+        .numInput, .flatpickr-current-month .numInputWrapper {
+            color: #F3F4F6;
+        }
+
+        .form-input {
+            background-color: #374151;
+            border: 1px solid #4B5563;
+            color: #F3F4F6;
+        }
+        .form-input::placeholder {
+            color: #9CA3AF;
+        }
+        .remove-btn {
+            background-color: #4B5563;
+            color: #F3F4F6;
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            line-height: 1;
+            transition: background-color 0.2s;
+        }
+        .remove-btn:hover {
+            background-color: #ef4444;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container mx-auto p-4 md:p-8 max-w-3xl">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 unbounded">Cocktail Checklist</h1>
+            <p class="text-lg text-gray-400">Check off the cocktails you've tried.</p>
+        </header>
+
+        <main>
+            <!-- Controls: Search and Add -->
+            <div class="mb-6 space-y-4 sm:space-y-0 sm:flex sm:items-center sm:gap-4">
+                <div class="flex-grow">
+                    <input type="text" id="search-bar" class="form-input w-full p-3 rounded-lg" placeholder="Search for a cocktail...">
+                </div>
+                <div class="flex items-center gap-2">
+                    <input type="text" id="new-cocktail-name" class="form-input flex-grow p-3 rounded-lg" placeholder="Add a new cocktail...">
+                    <button id="add-cocktail-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-5 rounded-lg transition duration-300">Add</button>
+                </div>
+            </div>
+
+            <div id="cocktail-list" class="space-y-3">
+                <!-- Cocktail list will be injected here -->
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/flatpickr.min.js"></script>
+    <script>
+        const cocktailListEl = document.getElementById('cocktail-list');
+        const searchBar = document.getElementById('search-bar');
+        const newCocktailInput = document.getElementById('new-cocktail-name');
+        const addCocktailBtn = document.getElementById('add-cocktail-btn');
+        
+        const defaultCocktails = [
+            { id: "mojito", name: "Mojito" },
+            { id: "old_fashioned", name: "Old Fashioned" },
+            { id: "margarita", name: "Margarita" },
+            { id: "martini", name: "Martini" },
+            { id: "daiquiri", name: "Daiquiri" },
+            { id: "manhattan", name: "Manhattan" },
+            { id: "negroni", name: "Negroni" },
+            { id: "moscow_mule", name: "Moscow Mule" },
+            { id: "whiskey_sour", name: "Whiskey Sour" },
+            { id: "cosmopolitan", name: "Cosmopolitan" },
+            { id: "aperol_spritz", name: "Aperol Spritz" },
+            { id: "gimlet", name: "Gimlet" },
+            { id: "bloody_mary", name: "Bloody Mary" },
+            { id: "pina_colada", name: "Piña Colada" },
+            { id: "mai_tai", name: "Mai Tai" },
+            { id: "sidecar", name: "Sidecar" },
+            { id: "french_75", name: "French 75" },
+            { id: "tom_collins", name: "Tom Collins" },
+            { id: "sazerac", name: "Sazerac" },
+            { id: "vesper", name: "Vesper" },
+            { id: "dark_n_stormy", name: "Dark 'n' Stormy" },
+            { id: "caipirinha", name: "Caipirinha" },
+            { id: "paloma", name: "Paloma" },
+            { id: "aviation", name: "Aviation" },
+            { id: "clover_club", name: "Clover Club" },
+            { id: "boulevardier", name: "Boulevardier" },
+            { id: "white_russian", name: "White Russian" },
+            { id: "black_russian", name: "Black Russian" },
+            { id: "penicillin", name: "Penicillin" },
+            { id: "bellini", name: "Bellini" },
+            { id: "espresso_martini", name: "Espresso Martini" },
+            { id: "mint_julep", name: "Mint Julep" },
+            { id: "singapore_sling", name: "Singapore Sling" },
+            { id: "corpse_reviver_2", name: "Corpse Reviver #2" },
+            { id: "hemingway_daiquiri", name: "Hemingway Daiquiri" },
+            { id: "irish_coffee", name: "Irish Coffee" },
+            { id: "pisco_sour", name: "Pisco Sour" },
+            { id: "ramos_gin_fizz", name: "Ramos Gin Fizz" },
+            { id: "southside", name: "Southside" },
+            { id: "vieux_carre", name: "Vieux Carré" },
+            { id: "zombie", name: "Zombie" },
+            { id: "bee_s_knees", name: "Bee's Knees" },
+            { id: "bramble", name: "Bramble" },
+            { id: "americano", name: "Americano" },
+            { id: "kir_royale", name: "Kir Royale" },
+            { id: "long_island_iced_tea", name: "Long Island Iced Tea" },
+            { id: "painkiller", name: "Painkiller" },
+            { id: "sea_breeze", name: "Sea Breeze" },
+            { id: "vodka_martini", name: "Vodka Martini" },
+            { id: "yellow_bird", name: "Yellow Bird" },
+        ];
+
+        let customCocktails = [];
+        let diaryData = {};
+
+        function loadData() {
+            const diary = localStorage.getItem('cocktailDiary');
+            diaryData = diary ? JSON.parse(diary) : {};
+            
+            const custom = localStorage.getItem('customCocktails');
+            customCocktails = custom ? JSON.parse(custom) : [];
+        }
+
+        function saveDiaryData() {
+            localStorage.setItem('cocktailDiary', JSON.stringify(diaryData));
+        }
+        
+        function saveCustomCocktails() {
+            localStorage.setItem('customCocktails', JSON.stringify(customCocktails));
+        }
+
+        function renderCocktails() {
+            const searchTerm = searchBar.value.toLowerCase();
+            const allCocktails = [...defaultCocktails, ...customCocktails];
+            
+            const filteredCocktails = allCocktails.filter(cocktail => 
+                cocktail.name.toLowerCase().includes(searchTerm)
+            );
+
+            cocktailListEl.innerHTML = '';
+            if (filteredCocktails.length === 0) {
+                cocktailListEl.innerHTML = `<p class="text-center text-gray-400">No cocktails found.</p>`;
+                return;
+            }
+
+            filteredCocktails.forEach(cocktail => {
+                const isChecked = diaryData[cocktail.id];
+                const savedDate = isChecked ? diaryData[cocktail.id].date : '';
+                const isCustom = cocktail.id.startsWith('custom_');
+
+                const item = document.createElement('div');
+                item.className = 'cocktail-item p-4 rounded-lg flex items-center justify-between gap-4';
+                
+                item.innerHTML = `
+                    <div class="flex items-center gap-4 flex-grow">
+                        <label for="${cocktail.id}" class="text-lg text-white cursor-pointer">${cocktail.name}</label>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="date-container">
+                            <input type="text" data-id="${cocktail.id}" class="date-input p-2 rounded-md text-sm text-gray-200 w-36 ${isChecked ? '' : 'hidden'}" placeholder="Add date..." value="${savedDate}">
+                        </div>
+                        <input type="checkbox" id="${cocktail.id}" data-id="${cocktail.id}" class="custom-checkbox" ${isChecked ? 'checked' : ''}>
+                        ${isCustom ? `<button data-id="${cocktail.id}" class="remove-btn remove-cocktail-btn">&times;</button>` : '<div class="w-6 h-6"></div>'}
+                    </div>
+                `;
+                cocktailListEl.appendChild(item);
+            });
+            
+            addEventListenersToListItems();
+        }
+
+        function addEventListenersToListItems() {
+            document.querySelectorAll('.custom-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', handleCheckboxChange);
+            });
+            
+            document.querySelectorAll('.date-input').forEach(dateInput => {
+                const fpInstance = flatpickr(dateInput, {
+                    dateFormat: "M j, Y",
+                    onChange: function(selectedDates, dateStr, instance) {
+                        const cocktailId = instance.element.dataset.id;
+                        diaryData[cocktailId] = { date: dateStr };
+                        saveDiaryData();
+                    }
+                });
+                
+                dateInput.flatpickrInstance = fpInstance;
+            });
+
+            document.querySelectorAll('.remove-cocktail-btn').forEach(button => {
+                button.addEventListener('click', handleRemoveCocktail);
+            });
+        }
+        
+        function handleCheckboxChange(event) {
+            const checkbox = event.target;
+            const cocktailId = checkbox.dataset.id;
+            const dateInput = document.querySelector(`.date-input[data-id="${cocktailId}"]`);
+            
+            if (checkbox.checked) {
+                dateInput.classList.remove('hidden');
+                if (!diaryData[cocktailId]) {
+                    diaryData[cocktailId] = { date: '' };
+                }
+                saveDiaryData();
+                dateInput.flatpickrInstance.open();
+            } else {
+                dateInput.classList.add('hidden');
+                dateInput.value = '';
+                delete diaryData[cocktailId];
+                saveDiaryData();
+            }
+        }
+
+        function handleRemoveCocktail(event) {
+            const cocktailId = event.target.dataset.id;
+            
+            customCocktails = customCocktails.filter(c => c.id !== cocktailId);
+            delete diaryData[cocktailId];
+
+            saveCustomCocktails();
+            saveDiaryData();
+
+            renderCocktails();
+        }
+        
+        function handleAddNewCocktail() {
+            const name = newCocktailInput.value.trim();
+            if (name === '') {
+                // Not showing an alert to follow the no-alert rule.
+                // You could implement a custom toast notification here if desired.
+                console.warn('Cannot add a cocktail with an empty name.');
+                return;
+            }
+
+            const newCocktail = {
+                id: `custom_${Date.now()}`,
+                name: name
+            };
+
+            customCocktails.push(newCocktail);
+            saveCustomCocktails();
+            
+            newCocktailInput.value = '';
+            renderCocktails();
+        }
+        
+        // --- Initial Load & Event Listeners ---
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            renderCocktails();
+            
+            searchBar.addEventListener('input', renderCocktails);
+            addCocktailBtn.addEventListener('click', handleAddNewCocktail);
+            newCocktailInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    handleAddNewCocktail();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
