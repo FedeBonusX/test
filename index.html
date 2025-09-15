@@ -100,46 +100,6 @@
             margin-right: auto;
         }
 
-        .url-input {
-            margin-top: 20px;
-            padding: 15px 20px;
-            border: none;
-            border-radius: 25px;
-            font-size: 1rem;
-            width: 100%;
-            max-width: 500px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        .load-button {
-            margin-top: 15px;
-            padding: 12px 30px;
-            background: #007AFF;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,122,255,0.3);
-        }
-
-        .load-button:hover {
-            background: #0056CC;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,122,255,0.4);
-        }
-
-        .placeholder {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            color: #666;
-            font-size: 1.2rem;
-            text-align: center;
-            padding: 20px;
-        }
 
         @media (max-width: 768px) {
             .iphone-frame {
@@ -176,10 +136,7 @@
             <div class="iphone-frame">
                 <div class="screen">
                     <div class="iframe-container">
-                        <div id="placeholder" class="placeholder">
-                            Enter your Figma prototype URL below to view it in iPhone 16 frame
-                        </div>
-                        <iframe id="prototype-iframe" class="prototype-iframe" style="display: none;"></iframe>
+                        <iframe id="prototype-iframe" class="prototype-iframe" src="https://zaffre-fancy-38272226.figma.site/"></iframe>
                     </div>
                 </div>
             </div>
@@ -187,43 +144,12 @@
 
         <div class="instructions">
             <p>This page displays your Figma prototype in an iPhone 16 device frame, ensuring users see the mobile version even when accessing from desktop.</p>
-            
-            <input type="url" id="url-input" class="url-input" placeholder="Paste your Figma prototype URL here...">
-            <br>
-            <button id="load-button" class="load-button">Load Prototype</button>
         </div>
     </div>
 
     <script>
-        document.getElementById('load-button').addEventListener('click', function() {
-            const url = document.getElementById('url-input').value.trim();
-            const iframe = document.getElementById('prototype-iframe');
-            const placeholder = document.getElementById('placeholder');
-            
-            if (url) {
-                // Validate URL
-                try {
-                    new URL(url);
-                    iframe.src = url;
-                    iframe.style.display = 'block';
-                    placeholder.style.display = 'none';
-                } catch (e) {
-                    alert('Please enter a valid URL');
-                }
-            } else {
-                alert('Please enter a URL');
-            }
-        });
-
-        // Allow Enter key to load prototype
-        document.getElementById('url-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                document.getElementById('load-button').click();
-            }
-        });
-
-        // Auto-focus on URL input
-        document.getElementById('url-input').focus();
+        // Page is ready - prototype loads automatically
+        console.log('iPhone 16 Prototype Viewer loaded with Figma prototype');
     </script>
 </body>
 </html>
