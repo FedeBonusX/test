@@ -27,13 +27,6 @@
             width: 100%;
         }
 
-        h1 {
-            color: white;
-            margin-bottom: 30px;
-            font-size: 2.5rem;
-            font-weight: 300;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
 
         .phone-container {
             display: inline-block;
@@ -88,17 +81,18 @@
             height: 100%;
             border: none;
             border-radius: 32px;
+            overflow: hidden;
         }
 
-        .instructions {
-            margin-top: 30px;
-            color: white;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+        .prototype-iframe::-webkit-scrollbar {
+            display: none;
         }
+
+        .prototype-iframe {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
 
 
         @media (max-width: 768px) {
@@ -107,13 +101,6 @@
                 height: 650px;
             }
             
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .instructions {
-                font-size: 1rem;
-            }
         }
 
         @media (max-width: 480px) {
@@ -122,16 +109,11 @@
                 height: 540px;
             }
             
-            h1 {
-                font-size: 1.5rem;
-            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>iPhone 16 Prototype Viewer</h1>
-        
         <div class="phone-container">
             <div class="iphone-frame">
                 <div class="screen">
@@ -140,10 +122,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="instructions">
-            <p>This page displays your Figma prototype in an iPhone 16 device frame, ensuring users see the mobile version even when accessing from desktop.</p>
         </div>
     </div>
 
