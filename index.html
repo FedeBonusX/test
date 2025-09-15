@@ -47,18 +47,6 @@
             position: relative;
         }
 
-        .iphone-frame::before {
-            content: '';
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 134px;
-            height: 30px;
-            background: #1a1a1a;
-            border-radius: 15px;
-            z-index: 10;
-        }
 
         .screen {
             width: 100%;
@@ -82,15 +70,12 @@
             border: none;
             border-radius: 32px;
             overflow: hidden;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
         .prototype-iframe::-webkit-scrollbar {
             display: none;
-        }
-
-        .prototype-iframe {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
         }
 
 
