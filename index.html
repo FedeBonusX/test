@@ -49,7 +49,7 @@
         .checklist-title {
             font-size: 24px;
             font-weight: 600;
-            color: #333;
+            color: #1a1a1a;
             margin-bottom: 20px;
             text-align: center;
         }
@@ -63,7 +63,7 @@
         .scenario-title {
             font-size: 18px;
             font-weight: 600;
-            color: #667eea;
+            color: #4c63d2;
             margin-bottom: 10px;
         }
 
@@ -76,18 +76,18 @@
         }
 
         .task-title {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 500;
-            color: #495057;
+            color: #2c3e50;
             margin-bottom: 8px;
             display: flex;
             align-items: center;
         }
 
         .task-description {
-            font-size: 14px;
-            color: #6c757d;
-            line-height: 1.4;
+            font-size: 16px;
+            color: #34495e;
+            line-height: 1.5;
         }
 
         .checkbox {
@@ -103,7 +103,7 @@
         }
 
         .task.completed .task-title {
-            color: #155724;
+            color: #0d4f1c;
             text-decoration: line-through;
         }
 
@@ -133,7 +133,7 @@
         .celebration-title {
             font-size: 32px;
             font-weight: 600;
-            color: #667eea;
+            color: #4c63d2;
             margin-bottom: 20px;
             animation: bounce 1s ease-in-out;
         }
@@ -147,7 +147,7 @@
         }
 
         .close-celebration {
-            background: #667eea;
+            background: #4c63d2;
             color: white;
             border: none;
             padding: 12px 24px;
@@ -159,7 +159,7 @@
         }
 
         .close-celebration:hover {
-            background: #5a6fd8;
+            background: #3d52b8;
         }
 
         @keyframes fadeIn {
@@ -322,6 +322,14 @@
             .scenario-title {
                 font-size: 16px;
             }
+            
+            .task-title {
+                font-size: 16px;
+            }
+            
+            .task-description {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
@@ -332,13 +340,13 @@
             
             <div class="scenario">
                 <h3 class="scenario-title">Scenario 1</h3>
-                <p style="margin-bottom: 15px; color: #6c757d; font-style: italic;">Imagine you've just downloaded BonusX for the first time. The first step is to create your profile.</p>
-                <p style="margin-bottom: 15px; color: #6c757d; font-style: italic;">For this scenario, assume the following about yourself:</p>
-                <ul style="margin-bottom: 15px; color: #6c757d; font-style: italic; padding-left: 20px;">
-                    <li>You have 1 citizenship.</li>
-                    <li>Your domicile address is the same as your residence address.</li>
-                    <li>You do not have any recognized civil invalidity.</li>
-                    <li>Your main activity is 'Lavoro dipendente' (Employee).</li>
+                <p style="margin-bottom: 15px; color: #34495e; font-style: italic; font-size: 16px; line-height: 1.5;">Imagine you've just downloaded BonusX for the first time. The first step is to create your profile.</p>
+                <p style="margin-bottom: 15px; color: #34495e; font-style: italic; font-size: 16px; line-height: 1.5;">For this scenario, assume the following about yourself:</p>
+                <ul style="margin-bottom: 15px; color: #34495e; font-style: italic; padding-left: 20px; font-size: 16px; line-height: 1.5;">
+                    <li>You have <strong>1 citizenship</strong>.</li>
+                    <li>Your <strong>domicile address is the same as your residence address</strong>.</li>
+                    <li>You do <strong>not have any recognized civil invalidity</strong>.</li>
+                    <li>Your main activity is <strong>'Lavoro dipendente' (Employee)</strong>.</li>
                 </ul>
                 
                 <div class="task" data-task="1-1">
@@ -354,7 +362,7 @@
                         <input type="checkbox" class="checkbox" onchange="toggleTask(this)">
                         <span>Task 2: Add a Middle Name and a second Citizenship</span>
                     </div>
-                    <div class="task-description">Oh! You just realized that you forgot to enter your middle name and the recently second citizenship you have obtained, when you signed up. Please find where you would add your middle name and add a second citizenship and update them.</div>
+                    <div class="task-description">Oh! You just realized that you forgot to enter your <strong>middle name</strong> and the recently <strong>second citizenship</strong> you have obtained, when you signed up. Please find where you would add your middle name and add a second citizenship and update them.</div>
                 </div>
                 
                 <div class="task" data-task="1-3">
@@ -362,7 +370,7 @@
                         <input type="checkbox" class="checkbox" onchange="toggleTask(this)">
                         <span>Task 3: Change Your Job</span>
                     </div>
-                    <div class="task-description">Your professional life has changed. You've left your job as an employee and are now a freelancer ('Lavoratore autonomo'). Please update your employment information.</div>
+                    <div class="task-description">Your professional life has changed. You've left your job as an <strong>employee</strong> and are now a <strong>freelancer ('Lavoratore autonomo')</strong>. Please update your employment information.</div>
                 </div>
             </div>
             
@@ -374,7 +382,7 @@
                         <input type="checkbox" class="checkbox" onchange="toggleTask(this)">
                         <span>Task 1: Update Living Situation</span>
                     </div>
-                    <div class="task-description">Currently, you are single and live by yourself. Where would you add this piece of information, in your profile page?</div>
+                    <div class="task-description">Currently, you are <strong>single</strong> and <strong>live by yourself</strong>. Where would you add this piece of information, in your profile page?</div>
                 </div>
                 
                 <div class="task" data-task="2-2">
@@ -382,8 +390,8 @@
                         <input type="checkbox" class="checkbox" onchange="toggleTask(this)">
                         <span>Task 2: You are now married!</span>
                     </div>
-                    <div class="task-description">Life moves fast! Imagine you have now gotten married. Please update your status to reflect that you are now married ('Coniuge o unito/a civilmente')</div>
-                    <div class="task-description" style="margin-top: 8px;">For this scenario, your spouse does not have any recognized civil invalidity.</div>
+                    <div class="task-description">Life moves fast! Imagine you have now gotten married. Please update your status to reflect that you are now <strong>married ('Coniuge o unito/a civilmente')</strong></div>
+                    <div class="task-description" style="margin-top: 8px;">For this scenario, your spouse does <strong>not have any recognized civil invalidity</strong>.</div>
                 </div>
                 
                 <div class="task" data-task="2-3">
@@ -391,7 +399,7 @@
                         <input type="checkbox" class="checkbox" onchange="toggleTask(this)">
                         <span>Task 3: Update Spouse's Information</span>
                     </div>
-                    <div class="task-description">A few months have passed, and your spouse, has just started a new job as an employee ('Lavoro dipendente'). Please find where you would update your spouse's profile and make that change.</div>
+                    <div class="task-description">A few months have passed, and your spouse, has just started a new job as an <strong>employee ('Lavoro dipendente')</strong>. Please find where you would update your spouse's profile and make that change.</div>
                 </div>
             </div>
         </div>
@@ -414,7 +422,7 @@
         <div class="celebration-content">
             <h2 class="celebration-title">Thank you for your help! 🎉</h2>
             <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExam1zb3o2MnUzeWFxMndmbG5ocXN1N3I0NHkxdTVmOW1rMm9ydzBqYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/v3Rb7dGuvkmaRi6qei/giphy.gif" alt="Happy Cat" class="cat-gif">
-            <p style="color: #666; margin-bottom: 20px;">You've completed all the tasks! Great job! 🐱</p>
+            <p style="color: #2c3e50; margin-bottom: 20px;">You've completed all the tasks! Great job! 🐱</p>
             <button class="close-celebration" onclick="closeCelebration()">Close</button>
         </div>
     </div>
