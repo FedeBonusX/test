@@ -22,11 +22,212 @@
         }
 
         .container {
-            text-align: center;
-            max-width: 1200px;
+            display: flex;
+            align-items: flex-start;
+            gap: 30px;
+            max-width: 1400px;
             width: 100%;
+            text-align: center;
         }
 
+        .checklist-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: left;
+            height: calc(100vh - 40px);
+            overflow-y: auto;
+            flex: 1;
+            min-width: 400px;
+        }
+
+        .phone-section {
+            flex: 0 0 auto;
+        }
+
+        .checklist-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .scenario {
+            margin-bottom: 25px;
+            border-left: 4px solid #667eea;
+            padding-left: 15px;
+        }
+
+        .scenario-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .task {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .task-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #495057;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .task-description {
+            font-size: 14px;
+            color: #6c757d;
+            line-height: 1.4;
+        }
+
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .task.completed {
+            background: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .task.completed .task-title {
+            color: #155724;
+            text-decoration: line-through;
+        }
+
+        .celebration-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .celebration-content {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideIn 0.6s ease-out;
+        }
+
+        .celebration-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 20px;
+            animation: bounce 1s ease-in-out;
+        }
+
+        .cat-gif {
+            width: 200px;
+            height: 200px;
+            border-radius: 15px;
+            margin: 20px 0;
+            object-fit: cover;
+        }
+
+        .close-celebration {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .close-celebration:hover {
+            background: #5a6fd8;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { 
+                transform: translateY(-50px) scale(0.8);
+                opacity: 0;
+            }
+            to { 
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #ff6b6b;
+            animation: confetti-fall 3s linear infinite;
+        }
+
+        .confetti:nth-child(odd) {
+            background: #4ecdc4;
+            animation-delay: 0.5s;
+        }
+
+        .confetti:nth-child(3n) {
+            background: #45b7d1;
+            animation-delay: 1s;
+        }
+
+        .confetti:nth-child(4n) {
+            background: #f9ca24;
+            animation-delay: 1.5s;
+        }
+
+        .confetti:nth-child(5n) {
+            background: #f0932b;
+            animation-delay: 2s;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
 
         .phone-container {
             display: inline-block;
@@ -46,7 +247,6 @@
                 inset 0 0 0 1px rgba(255,255,255,0.1);
             position: relative;
         }
-
 
         .screen {
             width: 100%;
@@ -78,7 +278,19 @@
             display: none;
         }
 
-
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .checklist-container {
+                min-width: auto;
+                width: 100%;
+                max-width: 600px;
+                height: calc(50vh - 20px);
+            }
+        }
 
         @media (max-width: 768px) {
             .iphone-frame {
@@ -86,6 +298,10 @@
                 height: 650px;
             }
             
+            .checklist-container {
+                padding: 20px;
+                height: calc(45vh - 20px);
+            }
         }
 
         @media (max-width: 480px) {
@@ -94,25 +310,204 @@
                 height: 540px;
             }
             
+            .checklist-container {
+                padding: 15px;
+                height: calc(40vh - 20px);
+            }
+            
+            .checklist-title {
+                font-size: 20px;
+            }
+            
+            .scenario-title {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="phone-container">
-            <div class="iphone-frame">
-                <div class="screen">
-                    <div class="iframe-container">
-                        <iframe id="prototype-iframe" class="prototype-iframe" src="https://humid-fixed-67254303.figma.site/"></iframe>
+        <div class="checklist-container">
+            <h2 class="checklist-title">User Testing Scenarios & Tasks</h2>
+            
+            <div class="scenario">
+                <h3 class="scenario-title">Scenario 1</h3>
+                <p style="margin-bottom: 15px; color: #6c757d; font-style: italic;">Imagine you've just downloaded BonusX for the first time. The first step is to create your profile.</p>
+                <p style="margin-bottom: 15px; color: #6c757d; font-style: italic;">For this scenario, assume the following about yourself:</p>
+                <ul style="margin-bottom: 15px; color: #6c757d; font-style: italic; padding-left: 20px;">
+                    <li>You have 1 citizenship.</li>
+                    <li>Your domicile address is the same as your residence address.</li>
+                    <li>You do not have any recognized civil invalidity.</li>
+                    <li>Your main activity is 'Lavoro dipendente' (Employee).</li>
+                </ul>
+                
+                <div class="task" data-task="1-1">
+                    <div class="task-title">
+                        <input type="checkbox" class="checkbox" onchange="toggleTask(this)">
+                        <span>Task 1: Please go through the process of creating your personal profile.</span>
+                    </div>
+                    <div class="task-description">Go to the profile page.</div>
+                </div>
+                
+                <div class="task" data-task="1-2">
+                    <div class="task-title">
+                        <input type="checkbox" class="checkbox" onchange="toggleTask(this)">
+                        <span>Task 2: Add a Middle Name and a second Citizenship</span>
+                    </div>
+                    <div class="task-description">Oh! You just realized that you forgot to enter your middle name and the recently second citizenship you have obtained, when you signed up. Please find where you would add your middle name and add a second citizenship and update them.</div>
+                </div>
+                
+                <div class="task" data-task="1-3">
+                    <div class="task-title">
+                        <input type="checkbox" class="checkbox" onchange="toggleTask(this)">
+                        <span>Task 3: Change Your Job</span>
+                    </div>
+                    <div class="task-description">Your professional life has changed. You've left your job as an employee and are now a freelancer ('Lavoratore autonomo'). Please update your employment information.</div>
+                </div>
+            </div>
+            
+            <div class="scenario">
+                <h3 class="scenario-title">Scenario 2</h3>
+                
+                <div class="task" data-task="2-1">
+                    <div class="task-title">
+                        <input type="checkbox" class="checkbox" onchange="toggleTask(this)">
+                        <span>Task 1: Update Living Situation</span>
+                    </div>
+                    <div class="task-description">Currently, you are single and live by yourself. Where would you add this piece of information, in your profile page?</div>
+                </div>
+                
+                <div class="task" data-task="2-2">
+                    <div class="task-title">
+                        <input type="checkbox" class="checkbox" onchange="toggleTask(this)">
+                        <span>Task 2: You are now married!</span>
+                    </div>
+                    <div class="task-description">Life moves fast! Imagine you have now gotten married. Please update your status to reflect that you are now married ('Coniuge o unito/a civilmente')</div>
+                    <div class="task-description" style="margin-top: 8px;">For this scenario, your spouse does not have any recognized civil invalidity.</div>
+                </div>
+                
+                <div class="task" data-task="2-3">
+                    <div class="task-title">
+                        <input type="checkbox" class="checkbox" onchange="toggleTask(this)">
+                        <span>Task 3: Update Spouse's Information</span>
+                    </div>
+                    <div class="task-description">A few months have passed, and your spouse, has just started a new job as an employee ('Lavoro dipendente'). Please find where you would update your spouse's profile and make that change.</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="phone-section">
+            <div class="phone-container">
+                <div class="iphone-frame">
+                    <div class="screen">
+                        <div class="iframe-container">
+                            <iframe id="prototype-iframe" class="prototype-iframe" src="https://humid-fixed-67254303.figma.site/"></iframe>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Celebration Overlay -->
+    <div id="celebration-overlay" class="celebration-overlay">
+        <div class="celebration-content">
+            <h2 class="celebration-title">Thank you for your help! 🎉</h2>
+            <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExam1zb3o2MnUzeWFxMndmbG5ocXN1N3I0NHkxdTVmOW1rMm9ydzBqYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/v3Rb7dGuvkmaRi6qei/giphy.gif" alt="Happy Cat" class="cat-gif">
+            <p style="color: #666; margin-bottom: 20px;">You've completed all the tasks! Great job! 🐱</p>
+            <button class="close-celebration" onclick="closeCelebration()">Close</button>
+        </div>
+    </div>
+
     <script>
         // Page is ready - prototype loads automatically
         console.log('iPhone 16 Prototype Viewer loaded with Figma prototype');
+        
+        // Function to toggle task completion
+        function toggleTask(checkbox) {
+            const taskElement = checkbox.closest('.task');
+            if (checkbox.checked) {
+                taskElement.classList.add('completed');
+            } else {
+                taskElement.classList.remove('completed');
+            }
+            
+            // Check if all tasks are completed
+            checkAllTasksCompleted();
+        }
+
+        // Function to check if all tasks are completed
+        function checkAllTasksCompleted() {
+            const allCheckboxes = document.querySelectorAll('.checkbox');
+            const checkedBoxes = document.querySelectorAll('.checkbox:checked');
+            
+            if (allCheckboxes.length > 0 && allCheckboxes.length === checkedBoxes.length) {
+                showCelebration();
+            }
+        }
+
+        // Function to show celebration
+        function showCelebration() {
+            const overlay = document.getElementById('celebration-overlay');
+            overlay.style.display = 'flex';
+            
+            // Create confetti
+            createConfetti();
+        }
+
+        // Function to close celebration
+        function closeCelebration() {
+            const overlay = document.getElementById('celebration-overlay');
+            overlay.style.display = 'none';
+            
+            // Remove confetti
+            const confettiElements = document.querySelectorAll('.confetti');
+            confettiElements.forEach(element => element.remove());
+        }
+
+        // Function to create confetti animation
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#f0932b', '#eb4d4b', '#6c5ce7'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                
+                document.body.appendChild(confetti);
+                
+                // Remove confetti after animation
+                setTimeout(() => {
+                    if (confetti.parentNode) {
+                        confetti.parentNode.removeChild(confetti);
+                    }
+                }, 5000);
+            }
+        }
+        
+        // Load saved progress from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkboxes = document.querySelectorAll('.checkbox');
+            checkboxes.forEach(checkbox => {
+                const taskId = checkbox.closest('.task').getAttribute('data-task');
+                const isCompleted = localStorage.getItem('task-' + taskId) === 'true';
+                if (isCompleted) {
+                    checkbox.checked = true;
+                    toggleTask(checkbox);
+                }
+                
+                // Save progress when checkbox changes
+                checkbox.addEventListener('change', function() {
+                    localStorage.setItem('task-' + taskId, this.checked);
+                });
+            });
+            
+            // Check if all tasks are already completed on page load
+            setTimeout(checkAllTasksCompleted, 100);
+        });
     </script>
 </body>
 </html>
