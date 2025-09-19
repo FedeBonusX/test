@@ -107,6 +107,30 @@
             text-decoration: line-through;
         }
 
+        .task.locked {
+            opacity: 0.4;
+            pointer-events: none;
+            position: relative;
+        }
+
+        .task.locked::before {
+            content: "🔒";
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            font-size: 20px;
+            z-index: 1;
+        }
+
+        .task.locked .checkbox {
+            opacity: 0.3;
+        }
+
+        .task.hidden {
+            display: none;
+        }
+
         .celebration-overlay {
             position: fixed;
             top: 0;
@@ -440,8 +464,41 @@
                 taskElement.classList.remove('completed');
             }
             
+            // Update task visibility based on completion
+            updateTaskVisibility();
+            
             // Check if all tasks are completed
             checkAllTasksCompleted();
+        }
+
+        // Function to update task visibility based on completion
+        function updateTaskVisibility() {
+            const allTasks = document.querySelectorAll('.task');
+            const taskOrder = ['1-1', '1-2', '1-3', '2-1', '2-2', '2-3'];
+            
+            allTasks.forEach((task, index) => {
+                const taskId = task.getAttribute('data-task');
+                const taskIndex = taskOrder.indexOf(taskId);
+                
+                if (taskIndex === 0) {
+                    // First task is always visible
+                    task.classList.remove('locked', 'hidden');
+                } else {
+                    // Check if previous task is completed
+                    const previousTaskId = taskOrder[taskIndex - 1];
+                    const previousTask = document.querySelector(`[data-task="${previousTaskId}"]`);
+                    const previousCheckbox = previousTask ? previousTask.querySelector('.checkbox') : null;
+                    
+                    if (previousCheckbox && previousCheckbox.checked) {
+                        // Previous task completed, show this task
+                        task.classList.remove('locked', 'hidden');
+                    } else {
+                        // Previous task not completed, lock this task
+                        task.classList.add('locked');
+                        task.classList.remove('hidden');
+                    }
+                }
+            });
         }
 
         // Function to check if all tasks are completed
@@ -504,7 +561,7 @@
                 const isCompleted = localStorage.getItem('task-' + taskId) === 'true';
                 if (isCompleted) {
                     checkbox.checked = true;
-                    toggleTask(checkbox);
+                    checkbox.closest('.task').classList.add('completed');
                 }
                 
                 // Save progress when checkbox changes
@@ -512,6 +569,9 @@
                     localStorage.setItem('task-' + taskId, this.checked);
                 });
             });
+            
+            // Update task visibility after loading saved progress
+            updateTaskVisibility();
             
             // Check if all tasks are already completed on page load
             setTimeout(checkAllTasksCompleted, 100);
